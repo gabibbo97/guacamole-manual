@@ -829,6 +829,86 @@
                     configured to use each when the Docker image starts.</para>
             </section>
         </section>
+        <section xml:id="guacamole-docker-tomcat-remote-ip-valve">
+            <title>Execution behind a proxy</title>
+            <para>
+                To run Guacamole behind a reverse proxy, the Tomcat's <link
+                xl:href="https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve">
+                <code>RemoteIpValve</code></link> should be configured as in <xref xmlns:xlink="http://www.w3.org/1999/xlink"
+                linkend="proxying-guacamole"/>.
+            </para>
+            <section xml:id="guacamole-docker-tomcat-remote-ip-valve-required-vars">
+                <title>Required environment variables</title>
+                <para>
+                    The following environment variables have to be set in order to configure the <link
+                    xl:href="https://tomcat.apache.org/tomcat-8.5-doc/config/valve.html#Remote_IP_Valve">
+                    <code>RemoteIpValve</code></link>:
+                </para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="2.25*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>GUACAMOLE_PROXY_ALLOWED_IPS_REGEX</envar></entry>
+                                <entry>
+                                    <para>The regex indicating the hosts allowed to set the remote IP via headers.
+                                        Specify <emphasis>.*</emphasis> to allow any address.
+                                        This maps with Tomcat's <emphasis>internalProxies</emphasis> directive</para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+            <section xml:id="guacamole-docker-tomcat-remote-ip-valve-optional-vars">
+                <title>Optional environment variables</title>
+                <para>
+                    These environment variables can be set to customize the proxy valve configuration:
+                </para>
+                <informaltable frame="all">
+                    <tgroup cols="2">
+                        <colspec colname="c1" colnum="1" colwidth="1*"/>
+                        <colspec colname="c2" colnum="2" colwidth="2.25*"/>
+                        <thead>
+                            <row>
+                                <entry>Variable</entry>
+                                <entry>Description</entry>
+                            </row>
+                        </thead>
+                        <tbody>
+                            <row>
+                                <entry><envar>GUACAMOLE_PROXY_IP_HEADER</envar></entry>
+                                <entry>
+                                    <para>The header indicating the remote host real IP.</para>
+                                    <para>Defaults to <code>X-Forwarded-For</code></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>GUACAMOLE_PROXY_PROTOCOL_HEADER</envar></entry>
+                                <entry>
+                                    <para>The header indicating the protocol being forwarded.</para>
+                                    <para>Defaults to <code>X-Forwarded-Proto</code></para>
+                                </entry>
+                            </row>
+                            <row>
+                                <entry><envar>GUACAMOLE_PROXY_BY_HEADER</envar></entry>
+                                <entry>
+                                    <para>The header indicating the proxy's identity.</para>
+                                    <para>Defaults to <code>X-Forwarded-By</code></para>
+                                </entry>
+                            </row>
+                        </tbody>
+                    </tgroup>
+                </informaltable>
+            </section>
+        </section>
         <section xml:id="guacamole-docker-guacamole-home">
             <title>Custom extensions and <envar>GUACAMOLE_HOME</envar></title>
             <para>If you have your own or third-party extensions for Guacamole which are not
